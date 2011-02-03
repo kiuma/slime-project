@@ -1,3 +1,6 @@
+Slime-project is a project directly derived by quickproject https://github.com/xach/quickproject
+its purpose is to bring more flexibility then quickproject and an integration with Emacs.
+
 Slime-project creates the skeleton of a Common Lisp project by
 automatically creating several files:
 
