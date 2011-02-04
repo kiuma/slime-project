@@ -204,7 +204,7 @@ it is used as the asdf defsystem depends-on list."
                 (with-new-file (s (find-conf name user-local-system))
                   (format s "(:directory \"~a\")" (directory-namestring pathname)))
                 (asdf:initialize-source-registry)))
-            (asdf:oos 'asdf:load-op system-symbol)
+            (asdf:load-system system-symbol)
             (when *update-emacs-p*
               (swank:eval-in-emacs (update-emacs system-symbol 
                                                  (merge-pathnames (format nil "~a.asd" name)
@@ -214,7 +214,7 @@ it is used as the asdf defsystem depends-on list."
 (defun update-system (system &optional interactive-p last-pathname-created default-package)
   (handler-case
       (progn 
-        (asdf:oos 'asdf:load-op system)
+        (asdf:load-system 'asdf:load-op system)
         (when *update-emacs-p*
           (swank:eval-in-emacs (update-emacs system last-pathname-created) t)))
     (file-error (ex)

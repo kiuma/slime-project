@@ -50,5 +50,5 @@ You can even launch the update-system function in interactive mode calling
 then you'll be able to choose the package for the in-packace directive for every newly created 
 resource.
 
-Slime-project is licensed under the MIT license; see LICENSE.txt for
+Slime-project is licensed under the MIT license; see LICENSE for
 details.
