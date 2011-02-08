@@ -243,7 +243,7 @@ it is used as the asdf defsystem depends-on list."
         (license "Public Domain")
         (project-description nil)
         (src-module "src"))
-    (format t "Enter dependencies by spaces []: ")
+    (format t "Enter dependencies separated by spaces []: ")
     (setf depends-on (dependencies-from-string (read-line)))
     (format t "Enter version [~a]: " version)
     (set-if-not-null-or-empty version (read-line))
