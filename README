@@ -4,7 +4,9 @@ its purpose is to bring more flexibility then quickproject and an integration wi
 Slime-project creates the skeleton of a Common Lisp project by
 automatically creating several files:
 
-  * README.txt
+  * README
+
+  * LICENSE
 
   * <project>.asd
 
@@ -38,8 +40,7 @@ If you don't like speedbar (that is handled when emacs interaction is active), c
   (setf slime-project:*disable-speedbar-p* t)
 
 Slime-project also allows user interaction during project creation just call
-  (slime-project:make-project #p"src/sample1/" 
-                              :interactive-p t)
+  (slime-project:make-project #p"src/sample1/" :interactive-p t)
 When interactive-p keyword is enabled, only name keyword is considered.
 
 Slime-project is also capable of updating a system creating necessary missing resources calling
@@ -47,8 +48,7 @@ Slime-project is also capable of updating a system creating necessary missing re
 
 You can even launch the update-system function in interactive mode calling
   (slime-project:update-system :sample1 t)
-then you'll be able to choose the package for the in-packace directive for every newly created 
-resource.
+then you'll be able to choose the package for the in-packace directive for every newly created resource.
 
 Slime-project is licensed under the MIT license; see LICENSE for
 details.
