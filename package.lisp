@@ -1,6 +1,6 @@
 ;;;; package.lisp
 
-(defpackage #:slime-project
+(defpackage :slime-project
   (:use #:cl)
   (:export #:*update-emacs-p*
            #:*disable-speedbar-p*

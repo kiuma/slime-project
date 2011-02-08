@@ -1,6 +1,6 @@
 ;;;; slime-project.lisp
 
-(in-package #:slime-project)
+(in-package :slime-project)
 
 (defvar *system-definition-pathname* nil)
 (defvar *package-name* nil)
@@ -22,8 +22,10 @@
 string designator and upcased."
   (make-symbol (string-upcase name)))
 
-(defun write-file-header (file &key (name *package-name*) (system-definition-pathname *system-definition-pathname*) (stream *standard-output*))
-  (format stream ";;; -*- lisp -*-~%" (string-upcase name))
+(defun write-file-header (file &key (name *package-name*) 
+                          (system-definition-pathname *system-definition-pathname*) 
+                          (stream *standard-output*))
+  (format stream ";;; -*- lisp -*-~%")
   (format stream ";;; $Header: ~a $~%~%" 
           (enough-namestring file 
                              system-definition-pathname))
@@ -119,15 +121,15 @@ not already exist."
 (defun write-package-file (name file)
   (with-new-file (stream file)
     (write-file-header file :stream stream)
-    (format stream "(defpackage ~S~%" (uninterned-symbolize name))
+    (format stream "(defpackage :~(~a~)~%" (uninterned-symbolize name))
     (format stream "  (:use #:cl))~%~%")))
 
 (defun write-application-file (name file)
   (with-new-file (stream file)
     (write-file-header file :stream stream)
     (if name
-        (format stream "(in-package ~S)~%~%" (uninterned-symbolize name))
-        (format stream ";; (in-package #:a-package)~%~%"))
+        (format stream "(in-package :~(~a~))~%~%" (uninterned-symbolize name))
+        (format stream ";; (in-package :a-package)~%~%"))
     (format stream ";;; ~S goes here. Let's go!~%~%" name)))
 
 (defun find-conf (name conf-pathname)
@@ -139,17 +141,17 @@ not already exist."
        return file))
 
 (defun update-emacs (system file)
-  (let ((system-namestring (directory-namestring (asdf:system-definition-pathname system)))
+  (let* ((system-namestring (directory-namestring (asdf:system-definition-pathname system)))
         (file-namestring (and file (namestring file))))
     `(progn
        (setq default-directory ,system-namestring)
        (when ,file-namestring
-           (find-file-other-window ,file-namestring)
-           (setf default-directory ,(directory-namestring file)))
+         (find-file-other-window ,file-namestring)
+         (setq default-directory (file-name-directory ,file-namestring)))
        (unless ,*disable-speedbar-p*
+         (speedbar-get-focus)
          (speedbar-update-contents)
-         (speedbar-refresh)
-         (speedbar-get-focus)))))
+         (speedbar-refresh)))))
 
 (defun make-project (pathname &key
                      interactive-p
@@ -214,7 +216,7 @@ it is used as the asdf defsystem depends-on list."
 (defun update-system (system &optional interactive-p last-pathname-created default-package)
   (handler-case
       (progn 
-        (asdf:load-system 'asdf:load-op system)
+        (asdf:load-system system)
         (when *update-emacs-p*
           (swank:eval-in-emacs (update-emacs system last-pathname-created) t)))
     (file-error (ex)
